@@ -1,6 +1,6 @@
 <template>
   <div class="input-wrap shadow">
-    <input type="text" v-model="newItem" class="input-box" maxlength="30" @keyup.enter="addItem">
+    <input type="text" v-model="newItem" class="input-box" maxlength="45" @keyup.enter="addItem">
     <!-- <button v-on:click="addItem">추가</button> -->
     <span @click="addItem" class="add-bt">
       <i class="fas fa-plus add-bt-icon"></i>
@@ -9,9 +9,7 @@
 </template>
 
 <script>
-  import {
-    ref
-  } from 'vue'
+  import { ref } from 'vue'
   export default {
     setup() {
       const newItem = ref('');
@@ -20,8 +18,12 @@
 
         // 앞쪽 뒤쪽 공백 제거
         temp = temp.trim()
+        // 추우 업데이트 예정 (정규 표현식-분자열체크 문법)
+        // 공백  공백   뒷자리 공백
         if (temp !== '') {
           // localStorage.setItem(키, 값);
+          // 값은 추후에 json 형태로 만들어서 저장
+          // JSON.stringify(오브젝트)
           // localStorage.setItem(키, json 문자열로 저장);
           // JSON저장 문자열
           /*
@@ -45,7 +47,7 @@
 </script>
 
 <style scoped>
-  .input-wrap{
+  .input-wrap {
     position: relative;
     display: block;
     height: 50px;
@@ -61,6 +63,7 @@
   .input-wrap input:focus {
     outline: none;
   }
+
   .input-box {
     width: 70%;
     font-size: 15px;
