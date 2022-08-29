@@ -9,12 +9,14 @@
 </template>
 
 <script>
+
 export default {
-  setup(){
+  setup(props, context){
     const clearAllMemo = () => {
       // localStorage에서 내용 전체 삭제
       // 추후 DB연동 예정
-      localStorage.clear();
+      // localStorage.clear();
+      context.emit('deletememo')
     }
     return{
       clearAllMemo
@@ -43,6 +45,9 @@ export default {
     border: 1px solid pink;
     border-radius: 5px;
     margin: 10px;
+  }
+  .fa-broom {
+    color: lightgrey;
   }
   .copy {
     display: block;
