@@ -13,12 +13,24 @@
   export default {
     setup() {
       const newItem = ref('');
+      // 현재 시간값을 계산ㅎㅐ서 중복이 되지 않는 값을 처리한다.
+      // 용도는 key와 id를 생성해 주기 위해서 처리
+      // 10보다 작은 값에 0을 붙임
+      const addZero = (n) => {
+        return n < 10 ? '0' + n : n;
+      }
+      // 현재 시간을 리턴
+      const getCurrentDate = () => {
+        let date = new Date();
+        return date.getFullYear().toString() + addZero(date.getMonth() + 1) + addZero(date.getDate()) +
+          addZero(date.getHours()) + addZero(date.getMinutes()) + addZero(date.getSeconds());
+      }
       const addItem = () => {
         let temp = newItem.value;
 
         // 앞쪽 뒤쪽 공백 제거
         temp = temp.trim()
-        // 추우 업데이트 예정 (정규 표현식-분자열체크 문법)
+        // 추우 업데이트 예정 (정규 표현식-문자열체크 문법)
         // 공백  공백   뒷자리 공백
         if (temp !== '') {
           // localStorage.setItem(키, 값);
@@ -29,10 +41,22 @@
           /*
             {completed: false, title: 메모내용, icon:파일명}
           */
-          localStorage.setItem(temp, temp);
+          let memoTemp = {
+            id: getCurrentDate(),
+            complete: false,
+            memotitle: newItem.value,
+            // memoicon: 'ico.png',
+            // memodate: new Date(),
+            // memocate: 'memo[info]',
+            // memourl: 'a.html',
+            // memopic: 'a.jpg',
+          };
+
+          // 추후 실제 DB 연동 예정
+          localStorage.setItem(memoTemp.id, JSON.stringify(memoTemp));
           resetItem();
         }
-        
+
       }
       // 내용 재설정 
       const resetItem = () => {
@@ -57,9 +81,11 @@
     overflow: hidden;
     margin: 20px 0;
   }
+
   .input-wrap input {
     border-style: none;
   }
+
   .input-wrap input:focus {
     outline: none;
   }
@@ -70,12 +96,14 @@
     margin-left: 20px;
     color: gray;
   }
+
   .add-bt {
     display: block;
     float: right;
     background: pink;
     cursor: pointer;
   }
+
   .add-bt-icon {
     display: inline-block;
     vertical-align: middle;
