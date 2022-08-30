@@ -10,6 +10,17 @@
         <i class="fas fa-plus add-bt-icon"></i>
       </span>
     </div>
+
+    <!-- 안내창 -->
+    <ModalVue v-bind:show="showModal" v-on:closemodal="showModal=false">
+      <template #header>
+        <h3>안내창</h3>
+      </template>
+      <template #body>
+        <h2>내용을 작성하여 주세요.</h2>
+      </template>
+    </ModalVue>
+
   </div>
 </template>
 
@@ -17,42 +28,51 @@
   import {
     ref
   } from 'vue'
+
+  import ModalVue from '@/components/Common/ModalVue.vue'
   export default {
+    components: {
+      ModalVue,
+    },
+
     setup(props, context) {
-      const newItem = ref('');
+      const newItem = ref("");
       const newIcon = ref(0);
+      const showModal = ref(false);
 
       const addItem = () => {
         let temp = newItem.value;
         let icon = newIcon.value;
-
         // 앞쪽 뒤쪽 공백 제거
-        temp = temp.trim()
-        // 추우 업데이트 예정 (정규 표현식-문자열체크 문법)
+        temp = temp.trim();
+        // 추후 업데이트 예정 (정규 표현식-문자열체크 문법)
         // 공백  공백   뒷자리 공백
-        if (temp !== '') {
+        if (temp !== "") {
           // 추후 실제 DB 연동 예정
           context.emit("additem", temp, icon);
           resetItem();
+        } else {
+          showModal.value = true;
         }
+      };
 
-      }
+
       // 내용 재설정 
       const resetItem = () => {
-        newItem.value = '';
-      }
-
+        newItem.value = "";
+      };
       const addIcon = (index) => {
         console.log(index);
         newIcon.value = index;
-      }
-
+      };
       return {
         newItem,
         addItem,
         addIcon,
-      }
-    }
+        showModal,
+
+      };
+    },
   }
 </script>
 
@@ -93,9 +113,11 @@
   .img1:active {
     outline: 3px solid lightpink;
   }
+
   .img2:active {
     outline: 3px solid lightpink;
   }
+
   .img3:active {
     outline: 3px solid lightpink;
   }
