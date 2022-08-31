@@ -9,20 +9,25 @@
 </template>
 
 <script>
-
-export default {
-  setup(props, context){
-    const clearAllMemo = () => {
-      // localStorage에서 내용 전체 삭제
-      // 추후 DB연동 예정
-      // localStorage.clear();
-      context.emit('deletememo')
-    }
-    return{
-      clearAllMemo
+  import {
+    useStore
+  } from 'vuex'
+  export default {
+    setup() {
+      // vuex store 사용
+      const store = useStore();
+      const clearAllMemo = () => {
+        // localStorage에서 내용 전체 삭제
+        // 추후 DB연동 예정
+        // localStorage.clear();
+        // context.emit('deletememo')
+        store.commit('CLEAR_MEMO');
+      }
+      return {
+        clearAllMemo
+      }
     }
   }
-}
 </script>
 
 <style>
@@ -37,6 +42,7 @@ export default {
     margin: 0 auto;
     border-radius: 5px;
   }
+
   .clear-all-bt {
     display: inline-block;
     width: 80%;
@@ -45,14 +51,21 @@ export default {
     border: 1px solid pink;
     border-radius: 5px;
     margin: 10px;
+    transition: background-color 0.5s;
   }
+
+  .clear-all-bt:hover {
+    background-color: pink;
+    color: #fff;
+  }
+
   .fa-broom {
     color: lightgrey;
   }
+
   .copy {
     display: block;
     font-size: 9px;
     white-space: nowrap;
   }
-
 </style>

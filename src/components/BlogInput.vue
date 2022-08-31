@@ -25,9 +25,8 @@
 </template>
 
 <script>
-  import {
-    ref
-  } from 'vue'
+  import { ref } from 'vue'
+  import { useStore } from 'vuex'
 
   import ModalVue from '@/components/Common/ModalVue.vue'
   export default {
@@ -35,7 +34,9 @@
       ModalVue,
     },
 
-    setup(props, context) {
+    setup() {
+      const store = useStore();
+
       const newItem = ref("");
       const newIcon = ref(0);
       const showModal = ref(false);
@@ -49,7 +50,9 @@
         // 공백  공백   뒷자리 공백
         if (temp !== "") {
           // 추후 실제 DB 연동 예정
-          context.emit("additem", temp, icon);
+          // context.emit("additem", temp, icon);
+          // store.commit('ADD_MEMO', {item:temp, index:icon});
+          store.dispatch('fetchAddMemo', {item:temp, index:icon})
           resetItem();
         } else {
           showModal.value = true;
@@ -62,7 +65,6 @@
         newItem.value = "";
       };
       const addIcon = (index) => {
-        console.log(index);
         newIcon.value = index;
       };
       return {

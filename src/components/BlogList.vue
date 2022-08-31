@@ -1,9 +1,10 @@
 <template>
+  <h1>List</h1>
   <div class="list-wrap">
     <TransitionGroup name="list" tag="ul">
     <!-- <ul> -->
       <!-- v-for in :key -->
-      <li v-for="(item, index) in memodata" v-bind:key="index" class="shadow">
+      <li v-for="(item, index) in items" v-bind:key="index" class="shadow">
         <i class="fas fa-check-circle check-bt" @click="updateMemo(item, index)"
           :class="{memoComplete:item.complete}"></i>
         <span :class="{memoCompleteTxt:item.complete}">{{item.memotitle}}</span>
@@ -21,21 +22,32 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+  import { useStore } from 'vuex';
+
   export default {
-    props: ['memodata'],
-    setup(props, context) {
+    setup() {
+      // vuex store 사용
+      const store = useStore();
+      const items = computed( () => store.getters.getMemoArr);
+      items.value = store.state.memoItemArr
 
       const removeMemo = (item, index) => {
-        context.emit('removeitem', item, index)
+        // context.emit('removeitem', item, index)
+        // store.commit('DELETE_MEMO', {item, index})
+        store.dispatch('fetchDeleteMemo',{item,index})
       }
 
       const updateMemo = (item, index) => {
-        context.emit('updateItem', item, index);
+        // context.emit('updateItem', item, index);
+        // store.commit('UPDATE_MEMO', {item, index})
+        store.dispatch('fetchUpdateMemo',{item,index})
       }
 
       return {
         removeMemo,
         updateMemo,
+        items,
       }
     }
 
