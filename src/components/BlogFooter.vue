@@ -21,7 +21,7 @@
         // 추후 DB연동 예정
         // localStorage.clear();
         // context.emit('deletememo')
-        store.commit('CLEAR_MEMO');
+        store.dispatch('fetchClearMemo');
       }
       return {
         clearAllMemo

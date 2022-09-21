@@ -28,7 +28,7 @@
 
     setup() {
       // 첫화면 보여질 여부
-      const introShow = ref(false);
+      const introShow = ref(true);
       const hideIntro = () => {
         introShow.value = false;
       }

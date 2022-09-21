@@ -22,21 +22,24 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+  import { computed} from 'vue';
   import { useStore } from 'vuex';
 
   export default {
     setup() {
       // vuex store 사용
       const store = useStore();
-      const items = computed( () => store.getters.getMemoArr);
-      items.value = store.state.memoItemArr
+      
+      // 화면에 html 등록하기 전에
+      // php서버에서 목록가져오기
+      store.dispatch('fetchReadMemo');
+      const items = computed(() => store.getters.getMemoArr);
+      const removeMemo = (id,index)=>{
+      // context.emit('removeitem',item,index)
+      // store.commit('DELETE_MEMO',{item,index})
+      store.dispatch('fetchDeleteMemo',{id,index})
+  }
 
-      const removeMemo = (item, index) => {
-        // context.emit('removeitem', item, index)
-        // store.commit('DELETE_MEMO', {item, index})
-        store.dispatch('fetchDeleteMemo',{item,index})
-      }
 
       const updateMemo = (item, index) => {
         // context.emit('updateItem', item, index);

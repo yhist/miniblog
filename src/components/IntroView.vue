@@ -32,4 +32,8 @@ export default {
     text-align: center;
     cursor: pointer;
     }
+
+    .intro-wrap h1 {
+      margin: 25px 0;
+    }
 </style>
